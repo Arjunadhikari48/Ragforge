@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <title>RAGForge — Your document workbench</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="RAGForge home"><span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 4.5h12l6 6V27H7z"/><path d="M19 4.5v6h6M11 16h10M11 20h10M11 24h6"/></svg></span><span><strong>RAGForge</strong><small>Private knowledge, made useful.</small></span></a>
+    <div class="account"><span class="status-dot"></span><span id="account-label">Workspace ready</span><button id="signout" class="quiet-button hidden" type="button">Sign out <span aria-hidden="true">↗</span></button></div>
+  </header>
+
+  <main>
+    <section id="auth-view" class="auth-layout">
+      <div class="auth-story">
+        <div class="eyebrow"><span class="eyebrow-line"></span> A quieter way to find answers</div>
+        <h1>Your documents.<br><em>In conversation.</em></h1>
+        <p class="story-copy">Bring your PDFs together and ask the questions that move your work forward. Answers stay grounded in the sources you provide.</p>
+        <div class="story-note"><span class="note-icon">✳</span><span>Private by design<small>Your library is tied to your account.</small></span></div>
+      </div>
+      <div class="auth-panel">
+        <div class="panel-kicker">YOUR RESEARCH DESK</div>
+        <h2 id="auth-title">Welcome back</h2>
+        <p id="auth-subtitle" class="muted">Sign in to continue to your workspace.</p>
+        <form id="auth-form">
+          <label for="email">Email address</label>
+          <input id="email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" autocomplete="current-password" minlength="8" placeholder="At least 8 characters" required>
+          <button id="auth-submit" class="primary-button full-button" type="submit">Sign in <span aria-hidden="true">→</span></button>
+        </form>
+        <div id="auth-error" class="notice error hidden" role="alert"></div>
+        <p class="switch-mode"><span id="switch-copy">New to RAGForge?</span> <button id="switch-mode" type="button">Create an account</button></p>
+        <div class="auth-foot"><span>●</span> Secure access to your own library</div>
+      </div>
+    </section>
+
+    <section id="workspace" class="workspace hidden">
+      <div class="workspace-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR PRIVATE LIBRARY</div><h1>Research, <em>with context.</em></h1></div><div class="heading-aside"><span class="live-indicator"></span> Your workspace is ready</div></div>
+      <div class="workspace-grid">
+        <aside class="library-panel">
+          <div class="section-heading"><div><span class="section-index">01</span><h2>Library</h2></div><span id="doc-count" class="count-pill">0 files</span></div>
+          <p class="panel-intro">Add the documents you want to think with.</p>
+          <label id="dropzone" class="dropzone" for="pdf-input" tabindex="0">
+            <input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden>
+            <span class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15.5v3A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-3"/></svg></span>
+            <strong>Drop a PDF here</strong><span class="drop-hint">or <span class="text-link">browse files</span></span><small>PDF only · up to 25 MB</small>
+          </label>
+          <div id="upload-status" class="upload-status hidden" role="status" aria-live="polite"><span id="upload-message"></span><progress id="upload-progress" class="hidden" max="100" value="0" aria-label="PDF upload progress"></progress></div>
+          <div class="list-heading"><span>IN THIS LIBRARY</span><span class="list-rule"></span></div>
+          <div id="documents" class="documents"><div class="empty-library"><span class="empty-file">＋</span><span>No documents yet</span><small>Your PDFs will appear here.</small></div></div>
+          <div class="library-foot"><span class="shield">⌑</span> Documents are scoped to your account</div>
+        </aside>
+
+        <section class="chat-panel" aria-label="Ask your documents">
+          <div class="chat-top"><div class="section-heading"><div><span class="section-index">02</span><h2>Ask your library</h2></div></div><div class="grounded-tag"><span>✳</span> GROUNDED IN YOUR FILES</div></div>
+          <div id="conversation" class="conversation" role="log" aria-live="polite" aria-relevant="additions">
+            <div id="welcome-state" class="welcome-state"><div class="sparkle">✳</div><div class="welcome-label">A GOOD PLACE TO BEGIN</div><h3>What would you like<br>to understand?</h3><p>Ask a question and RAGForge will look across your library for a grounded answer.</p><div class="suggestions"><button type="button" class="suggestion">Summarize the key ideas <span>↗</span></button><button type="button" class="suggestion">Compare themes across files <span>↗</span></button><button type="button" class="suggestion">Find a specific detail <span>↗</span></button></div></div>
+            <div id="messages" class="messages"></div>
+          </div>
+          <form id="chat-form" class="composer"><textarea id="question" rows="1" maxlength="4000" placeholder="Ask anything about your documents…" aria-label="Your question" required></textarea><div class="composer-bottom"><span class="composer-hint"><span class="kbd">↵</span> to ask · <span class="kbd">Shift + ↵</span> for a new line</span><button id="ask-button" class="send-button" type="submit" aria-label="Send question"><span>Ask</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-5 5 5-5 5"/></svg></button></div></form>
+          <div class="chat-disclaimer">Answers are generated from your sources. Check citations for context.</div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>RAGForge <span class="footer-sep">/</span> A private document workbench</span><span>Built for clearer thinking <span class="footer-star">✳</span></span></footer>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
